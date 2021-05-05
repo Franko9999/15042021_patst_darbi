@@ -19,5 +19,6 @@ import visit.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', visit.views.index),
     path('add_visit', visit.views.add_visit)
 ]
