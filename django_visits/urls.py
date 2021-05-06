@@ -19,8 +19,8 @@ import visit.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', visit.views.index),
-    path('add_visit', visit.views.add_visit),
-    path('filter_by_date', visit.views.filter_by_date),
-    path('filter_by_room', visit.views.filter_by_room),
+    path('', visit.views.VisitListView.as_view()),
+    path('add_visit', visit.views.AddVisitView.as_view()),
+    path('filter_by_date', visit.views.FilterByDateView.as_view()),
+    path('filter_by_room', visit.views.FilterByRoomView.as_view()),
 ]

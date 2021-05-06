@@ -1,76 +1,16 @@
 from django.shortcuts import render
+from django.views.generic import View, ListView
 from visit.models import Visit, Room
 
-def index(request):
 
-	#lai dabutu pirmos piecus objektus klat liekam
-	#visit = Visit.objects.all()[:5]
-
-	visits = Visit.objects.all()
-
-	context = {
-		'visits' : visits,
-	}
-
-	return render(
-		template_name = 'index.html',
-		request = request,
-		context = context,
-	)
-
-def filter_by_date(request):
-
-	if request.method == "POST":
-		date = request.POST['date']
-
-		visits = Visit.objects.filter(date = date)
-
-		context = {
-			'visits' : visits,
-		}
-
+class AddVisitView(View):
+	def get(self, request):
 		return render(
-			template_name = 'index.html',
-			request = request,
-			context = context,
+			template_name='form.html',
+			request=request,
 		)
 
-
-	return render(
-		template_name='filter_by_date.html',
-		request = request,
-	)
-
-
-def filter_by_room(request):
-
-	if request.method == "POST":
-
-		room_id = request.POST['room_id']
-		visits = Visit.objects.filter(room__id = room_id) # varam ar (room = room), bet
-		# tas bus viens lieks query pieprasijums, ar (room__id = room_id)
-		#
-
-		context = {
-			'visits' : visits,
-		}
-
-		return render(
-			template_name = 'index.html',
-			request = request,
-			context = context,
-		)
-
-
-	return render(
-		template_name='filter_by_room.html',
-		request = request,
-		)
-
-
-
-def add_visit(request):
-	if request.method == "POST":
+	def post(self, request):
 		room_id = request.POST['room_id']
 		room = Room.objects.get(id=room_id)
 
@@ -82,7 +22,6 @@ def add_visit(request):
 
 		)
 
-
 		visit.save()
 
 		context = {
@@ -92,12 +31,66 @@ def add_visit(request):
 		}
 
 		return render(
-			template_name = "visit.html",
+			template_name="visit.html",
+			request=request,
+			context=context,
+		)
+
+
+class FilterByDateView(View):
+	def get(self, request):
+		return render(
+		template_name='filter_by_date.html',
+		request = request,
+		)
+
+	def post(self, request):
+		date = request.POST['date']
+
+		visits = Visit.objects.filter(date = date)
+
+		context = {
+			'visits' : visits,
+		}
+
+		return render(
+			template_name = 'visit_list.html',
 			request = request,
 			context = context,
 		)
 
-	return render(
-		template_name = "form.html",
-		request = request,
-	)
+
+class FilterByRoomView(View):
+	def get(self, request):
+		return render(
+			template_name='filter_by_room.html',
+			request=request,
+		)
+
+	def post(self, request):
+		room_id = request.POST['room_id']
+		visits = Visit.objects.filter(room__id=room_id)  # varam ar (room = room), bet
+		# tas bus viens lieks query pieprasijums, ar (room__id = room_id)
+		#
+
+		context = {
+			'visits': visits,
+		}
+
+		return render(
+			template_name='visit_list.html',
+			request=request,
+			context=context,
+		)
+
+class VisitListView(ListView):
+	model = Visit
+	template_name = 'visit_list.html'
+
+
+
+
+
+
+
+
