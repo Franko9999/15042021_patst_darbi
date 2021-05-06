@@ -7,9 +7,11 @@
 <body>
 
   <p>
-      Name: <strong>{{ name }}</strong> <br>
-      Date: {{ date }} <br>
-      Reason: {{ reason }} <br>
+      Name: <strong>{{ object.name }}</strong> <br>
+      Date: {{ object.date }} <br>
+      Reason: {{ object.reason }} <br>
+      Room: {{ object.room.id }} - {{ object.room.description }}<br>
+
   </p>
 
 </body>

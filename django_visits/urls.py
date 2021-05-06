@@ -20,6 +20,7 @@ import visit.views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', visit.views.VisitListView.as_view(), name = 'visit-list'),
+    path('visit/<int:pk>', visit.views.VisitDetailView.as_view(), name = 'visit-detail'),
     path('add_visit', visit.views.AddVisitView.as_view()),
     path('filter_by_date', visit.views.FilterByDateView.as_view()),
     path('filter_by_room', visit.views.FilterByRoomView.as_view()),

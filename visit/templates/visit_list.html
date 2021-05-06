@@ -7,13 +7,13 @@
 <body>
     <ul>
         {% for visit in object_list %}
-            <li>
-                <p>
+        <li>
+                <a href="{% url 'visit-detail' pk=visit.pk %}">
                   Name: <strong>{{ visit.name }}</strong> <br>
                   Date: <strong>{{ visit.date }} <br>
                   Reason: <strong>{{ visit.reason }} <br>
                   Room ID: {{ visit.room.id }}  <br>
-                </p>
+                </a>
             </li>
         {% endfor %}
     </ul>

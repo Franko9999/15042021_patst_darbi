@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import View, ListView, FormView
+from django.views.generic import View, ListView, FormView, DetailView
 from visit.models import Visit, Room
 from django.urls import reverse_lazy
 from visit.forms import VisitForm
@@ -8,6 +8,11 @@ class AddVisitView(ListView):
 
 	model = Visit
 	template_name = 'visit_list.html'
+
+class VisitDetailView(DetailView):
+
+	model = Visit
+	template_name = 'visit_detail.html'
 
 class AddVisitView(FormView):
 
