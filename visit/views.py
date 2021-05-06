@@ -1,41 +1,25 @@
 from django.shortcuts import render
-from django.views.generic import View, ListView
+from django.views.generic import View, ListView, FormView
 from visit.models import Visit, Room
+from django.urls import reverse_lazy
+from visit.forms import VisitForm
 
+class AddVisitView(ListView):
 
-class AddVisitView(View):
-	def get(self, request):
-		return render(
-			template_name='form.html',
-			request=request,
-		)
+	model = Visit
+	template_name = 'visit_list.html'
 
-	def post(self, request):
-		room_id = request.POST['room_id']
-		room = Room.objects.get(id=room_id)
+class AddVisitView(FormView):
 
-		visit = Visit(
-			name=request.POST['name'],
-			date=request.POST['date'],
-			reason=request.POST['reason'],
-			room=room,
+	form_class = VisitForm
+	template_name = 'add_visit.html'
+	success_url = reverse_lazy('visit-list')
 
-		)
+	def form_valid(self, form):
+		form.save()
 
-		visit.save()
-
-		context = {
-			'name': visit.name,
-			'date': visit.date,
-			'reason': visit.reason,
-		}
-
-		return render(
-			template_name="visit.html",
-			request=request,
-			context=context,
-		)
-
+		response = super().form.valid(form)
+		return response
 
 class FilterByDateView(View):
 	def get(self, request):
